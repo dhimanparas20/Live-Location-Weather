@@ -21,6 +21,6 @@ def fetch_weather(city,state,pincode):
     wind_speed = soup.find('span',id="wob_tws").text
     dc = soup.find('span',id="wob_dc").text
     img_tag = soup.find('img', class_='wob_tci')
-    img_src = "http:"+img_tag['src'] if img_tag else None
+    img_src = "https:"+img_tag['src'] if img_tag else None
     data = {"tmp":current_temp+"°C","ppt":ppt,"hm":humidity,"ws":wind_speed,"dc":dc,"img_src":img_src}
     return data
