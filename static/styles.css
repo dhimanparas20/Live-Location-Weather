@@ -1,0 +1,89 @@
+:root {
+    --color-primary: #00bcd4;
+    --color-secondary: #b2ebf2;
+    --color-background: #000000;
+    --color-card-bg: rgba(255, 255, 255, 0.05);
+    --color-card-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background-color: var(--color-background);
+    color: #fff;
+    transition: all 0.3s ease;
+    background-image: url('wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.glassmorphism {
+    background: var(--color-card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-card-border);
+    box-shadow: 0 4px 6px rgba(0, 188, 212, 0.1);
+    transition: all 0.3s ease;
+}
+
+.glassmorphism:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 188, 212, 0.2);
+}
+
+.card-header {
+    background-color: rgba(0, 188, 212, 0.1);
+    border-bottom: 1px solid var(--color-card-border);
+}
+
+.weather-icon {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.5));
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+#geolocationPrompt {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+}
+
+.loading-animation {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(0, 188, 212, 0.3);
+    border-radius: 50%;
+    border-top-color: #00bcd4;
+    animation: spin 1s ease-in-out infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: var(--color-secondary);
+}
+

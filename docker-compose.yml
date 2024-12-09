@@ -1,0 +1,9 @@
+services:
+    web:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      command: ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+      ports:
+        - "80:5000"  # Expose internal port 5000 on external port 80
+      restart: always

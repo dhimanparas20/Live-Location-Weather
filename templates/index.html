@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/styles.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        secondary: 'var(--color-secondary)',
+                        background: 'var(--color-background)',
+                    }
+                }
+            }
+        }
+    </script>
+    <title id="pageTitle">MST Weather Report</title>
+    <link id="favicon" rel="icon" type="image/x-icon" href="/images/default-favicon.ico">
+</head>
+<body class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <main class="container">
+        <h1 class="text-4xl font-extrabold text-primary mb-6 text-center animate-pulse">MST Weather Report</h1>
+        
+        <div id="loadingAnimation" class="text-center mb-6">
+            <div class="loading-animation"></div>
+            <p class="loading-text">Fetching your location...</p>
+        </div>
+
+        <div id="contentContainer" class="hidden">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <section class="glassmorphism rounded-lg overflow-hidden h-100">
+                        <header class="card-header p-4">
+                            <h2 class="text-xl font-semibold text-center text-secondary">Location Information</h2>
+                        </header>
+                        <div class="card-body p-4">
+                            <p class="mb-2"><strong class="text-secondary">City:</strong> <span id="city" class="text-primary">Fetching...</span></p>
+                            <p class="mb-2"><strong class="text-secondary">State:</strong> <span id="state" class="text-primary">Fetching...</span></p>
+                            <p class="mb-2"><strong class="text-secondary">Pincode:</strong> <span id="pincode" class="text-primary">Fetching...</span></p>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <section class="glassmorphism rounded-lg overflow-hidden h-100">
+                        <header class="card-header p-4">
+                            <h2 id="weather_detail_header" class="text-xl font-semibold text-center text-secondary">Weather Details</h2>
+                        </header>
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-md-6 text-center mb-4 mb-md-0">
+                                    <img id="weather_icon" src="" alt="Weather Icon" class="weather-icon mx-auto mb-2 hidden">
+                                    <p id="description" class="text-lg font-medium text-secondary">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mb-2"><strong class="text-secondary">Temperature:</strong> <span id="temperature" class="text-primary">-</span></p>
+                                    <p class="mb-2"><strong class="text-secondary">Precipitation:</strong> <span id="precipitation" class="text-primary">-</span></p>
+                                    <p class="mb-2"><strong class="text-secondary">Humidity:</strong> <span id="humidity" class="text-primary">-</span></p>
+                                    <p class="mb-2"><strong class="text-secondary">Wind Speed:</strong> <span id="wind_speed" class="text-primary">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="geolocationPrompt" class="hidden">
+        <h2 class="text-2xl font-bold text-primary mb-4">Enable Location Access</h2>
+        <p class="text-secondary mb-4">Please enable location access to get accurate weather information for your area.</p>
+        <button id="enableLocation" class="bg-primary text-white font-bold py-2 px-4 rounded hover:bg-secondary hover:text-primary transition-colors">
+            Enable Location
+        </button>
+    </div>
+
+    <script src="static/script.js"></script>
+</body>
+</html>
