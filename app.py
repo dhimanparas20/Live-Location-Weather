@@ -17,7 +17,7 @@ class GetWeather(Resource):
         state = request.args.get('state', 'Unknown State')
         pincode = request.args.get('pincode', 'Unknown Pincode')
 
-        weather_data = fetch_weather(city,state,pincode,unit_fix=False)
+        weather_data = fetch_weather(city,state,pincode,unit_fix=True)
         # Return a JSON response
         return jsonify({
             "status": "success",
