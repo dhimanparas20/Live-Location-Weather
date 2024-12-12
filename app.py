@@ -28,4 +28,4 @@ class GetWeather(Resource):
 api.add_resource(GetWeather, '/get_weather')
 
 if __name__ == '__main__':
-    app.run(debug=False,threaded=True,port=5000,host="localhost")
+    app.run(debug=True,threaded=True,port=5000,host="localhost")
