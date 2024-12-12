@@ -15,7 +15,7 @@ def fetch_weather(city,state,pincode,unit_fix=True):
     url = f'https://www.google.co.in/search?q={full_keyword}'
 
     id_val = "wob_t" if unit_fix else "wob_" 
-    temp_unit_val = "°F" if unit_fix else "°C" 
+    temp_unit_val = "°C" if unit_fix else "°F" 
     try:
         response = session.get(url,headers=headers)
         soup = BeautifulSoup(response.content,"html.parser")
