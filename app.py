@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_restful import Api, Resource
-from scrape import fetch_weather
+from scrape import get_weather
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,16 +13,21 @@ def home():
 # Resource to handle GET requests with location data
 class GetWeather(Resource):
     def get(self):
-        city = request.args.get('city', 'Unknown City')
-        state = request.args.get('state', 'Unknown State')
-        pincode = request.args.get('pincode', 'Unknown Pincode')
-
-        weather_data = fetch_weather(city,state,pincode,unit_fix=True)
-        # Return a JSON response
-        return jsonify({
-            "status": "success",
-            "weather_data": weather_data,
-        })
+            data = request.args.to_dict()  # Extract all query parameters as a dictionary
+            # Validate required parameters
+            if not all(key in data for key in ('latitude','longitude')):
+                return jsonify({
+                    "status": "error",
+                    "message": "Please provide 'latitude', and 'longitude' as query parameters."
+                }), 400
+            
+            # Fetch weather data
+            weather_data = get_weather(float(data['latitude']),float(data['longitude']))
+            
+            return jsonify({
+                "status": "success",
+                "weather_data": weather_data,
+            })
 
 # Adding the resource to the API
 api.add_resource(GetWeather, '/get_weather')

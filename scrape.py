@@ -1,32 +1,46 @@
-from requests_html import HTMLSession
-from bs4 import BeautifulSoup
 import requests
+from dotenv import load_dotenv
+import os
 
-headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+# Load environment variables from .env
+load_dotenv()
+
+OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
+BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+def get_weather(lat, lon, unit_fix=True):
+    """
+    Fetches weather data for a given latitude and longitude using OpenWeatherMap API.
+
+    Args:
+        lat (str or float): Latitude
+        lon (str or float): Longitude
+        unit_fix (bool): True for metric (Celsius), False for imperial (Fahrenheit)
+
+    Returns:
+        dict: Weather data or error message
+    """
+    units = "metric" if unit_fix else "imperial"
+    params = {
+        "lat": lat,
+        "lon": lon,
+        "appid": OPEN_WEATHER_API_KEY,
+        "units": units,
     }
-session = HTMLSession()
 
-def fetch_weather(city,state,pincode,unit_fix=True):
-    full_keyword = "current%20weather%20of%20"
-    for space in city,state,pincode:
-        full_keyword+="%20"
-        full_keyword += space.replace(" ","")
-    url = f'https://www.google.co.in/search?q={full_keyword}'
-
-    id_val = "wob_t" if unit_fix else "wob_" 
-    temp_unit_val = "°C" if unit_fix else "°F" 
-    try:
-        response = session.get(url,headers=headers)
-        soup = BeautifulSoup(response.content,"html.parser")
-        current_temp = soup.find('span',id=f"{id_val}tm").text
-        ppt = soup.find('span',id="wob_pp").text
-        humidity = soup.find('span',id="wob_hm").text
-        wind_speed = soup.find('span',id=f"{id_val}ws").text
-        dc = soup.find('span',id="wob_dc").text
-        img_tag = soup.find('img', id='wob_tci')
-        img_src = "https:"+img_tag['src'] if img_tag else None
-        data = {"tmp":current_temp+temp_unit_val,"ppt":ppt,"hm":humidity,"ws":wind_speed,"dc":dc,"img_src":img_src}
-    except Exception as e:
-        data = {"tmp":e,"ppt":0,"hm":"NIL","ws":"NIL","dc":"NIL","img_src":""}
-    return data
+    response = requests.get(BASE_URL, params=params)
+    
+    if response.status_code == 200:
+        data = response.json()
+        weather_info = {
+            "city": data.get("name", "Unknown"),
+            "temperature": f"{data['main']['temp']}°{'C' if unit_fix else 'F'}",
+            "humidity": f"{data['main']['humidity']}%",
+            "weather": data["weather"][0]["description"],
+            "wind_speed": f"{data['wind']['speed']} m/s",
+            "precipitation": data.get("rain", {}).get("1h", 0),  # Rain in last 1 hour (default 0)
+            "icon_url": f"https://openweathermap.org/img/wn/{data['weather'][0]['icon']}@2x.png",
+        }
+        return weather_info
+    else:
+        return {"error": f"Failed to fetch weather data. {response.json().get('message', 'Unknown error')}"}

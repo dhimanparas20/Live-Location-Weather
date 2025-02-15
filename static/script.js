@@ -36,22 +36,22 @@ function fetchAndSendLocation() {
                 url: '/get_weather',
                 method: 'GET',
                 data: {
-                    city: city,
-                    state: state,
-                    pincode: pincode
+                    latitude: latitude,
+                    longitude: longitude
                 },
                 success: function(response) {
-                    // console.log('Weather Data:', response.weather_data);
+                    console.log('Weather Data:', response.weather_data);
                     const weather = response.weather_data;
 
                     // Update weather details in the HTML
-                    $('#temperature').text(weather.tmp || '-');
-                    $('#precipitation').text(weather.ppt || '-');
-                    $('#humidity').text(weather.hm || '-');
-                    $('#wind_speed').text(weather.ws || '-');
-                    $('#description').text(weather.dc || '-');
-                    if (weather.img_src) {
-                        $('#weather_icon').attr('src', weather.img_src).removeClass('hidden');
+                    $('#city').text(weather.city || '-');
+                    $('#temperature').text(weather.temperature || '-');
+                    $('#precipitation').text(weather.precipitation || '-');
+                    $('#humidity').text(weather.humidity || '-');
+                    $('#wind_speed').text(weather.wind_speed || '-');
+                    $('#description').text(weather.weather || '-');
+                    if (weather.icon_url) {
+                        $('#weather_icon').attr('src', weather.icon_url).removeClass('hidden');
                     }
 
                     // Update favicon and title
